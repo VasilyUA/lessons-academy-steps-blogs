@@ -1,0 +1,9 @@
+{
+    "ignore": ["node_modules",  ".git"],
+    "env": {
+      "NODE_ENV": "development",
+      "DB_URL": "mongodb://127.0.0.1:27017/blog"
+    },
+    "ext": ".js,.json",
+    "watch": ["./"]
+  }
