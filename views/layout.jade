@@ -6,6 +6,7 @@ head
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/main.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
 header
     .header-blog
         .container-fluid.top-head
@@ -84,4 +85,7 @@ header
                                         a(href='/authors/add') Add Author
                                 != messages()
 
-block content
+.my-content
+    block content
+
+include footer
