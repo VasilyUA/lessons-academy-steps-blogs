@@ -1,5 +1,5 @@
-let { Router } = require('express');
-let router = Router();
+const { Router } = require('express');
+const router = Router();
 // const multer = require("multer");
 // const upload = multer({ dest: "./public/uploads/" });
 const validation = require('../validation/posts');
