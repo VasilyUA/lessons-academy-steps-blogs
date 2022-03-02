@@ -9,7 +9,6 @@ exports.indexPage = async (req, res, next) => {
     promises.push(Categories.find().lean());
     promises.push(Authors.find().lean());
     const [posts, categories, authors] = await Promise.all(promises);
-    console.log(posts, categories, authors);
     res.render("index", {
       posts: posts,
       categories: categories,

@@ -44,33 +44,34 @@ block content
                                 .row
                                     if posts
                                         for post in posts
-                                            .col-md-2.col-sm-2.col-lg-2.hidden-xs.left-blok
-                                                .day #{moment(post.date).format("DD")}
-                                                .month #{moment(post.date).format("MMM")}
-                                                .reviews 120 reviews
-                                                .comments 3 comments
-                                                .share Share  article
-                                            .col-md-10.col-lg-10.col-sm-10.middle-block
-                                                if categories
-                                                    for category in categories
-                                                        .blog-tags
-                                                            i.fa.fa-tags(aria-hidden='true')=post.category
-                                                img(src='uploads/#{post.mainimage}', alt='')
-                                                span.posted   Posted in
-                                                    a(href='posts/sort/#{post.category}')  #{post.category}
-                                                    span  by #{post.author}
-                                                .row.visible-xs.left-blok
-                                                    .col-xs-6
-                                                        .day #{moment(post.date).format("DD")}
-                                                        .month #{moment(post.date).format("MMM")}
-                                                    .col-xs-6
-                                                        .reviews 120 reviews
-                                                        .comments 3 comments
-                                                        .share Share  article
-                                                h4=post.title
-                                                p!=blogPreview(post.post, 800)
-
-                                                a.btn-transparent(href='posts/show/#{post.id}') Continue
+                                            br
+                                            div
+                                                .col-md-2.col-sm-2.col-lg-2
+                                                    .day #{moment(post.date).format("DD")}
+                                                    .month #{moment(post.date).format("MMM")}
+                                                    .reviews 120 reviews
+                                                    .comments 3 comments
+                                                    .share Share  article
+                                                .col-md-10.col-lg-10.col-sm-10.middle-block
+                                                    if categories
+                                                        for category in categories
+                                                            .blog-tags
+                                                                i.fa.fa-tags(aria-hidden='true')=post.category
+                                                    img(src='uploads/#{post.mainimage}', alt='')
+                                                    span.posted   Posted in
+                                                        a(href='posts/sort/#{post.category}')  #{post.category}
+                                                        span  by #{post.author}
+                                                    .row.visible-xs.left-blok
+                                                        .col-xs-6
+                                                            .day #{moment(post.date).format("DD")}
+                                                            .month #{moment(post.date).format("MMM")}
+                                                        .col-xs-6
+                                                            .reviews 120 reviews
+                                                            .comments 3 comments
+                                                            .share Share  article
+                                                    h4=post.title
+                                                    p!=blogPreview(post.post, 800)
+                                                    a.btn-transparent(href='posts/show/#{post.id}') Continue
                                         else
                                             h3 Posts not found
                             .col-lg-3.visible-lg
