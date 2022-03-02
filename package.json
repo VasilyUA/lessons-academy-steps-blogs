@@ -27,6 +27,9 @@
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
     "nodemon": "^2.0.15"
   }
 }

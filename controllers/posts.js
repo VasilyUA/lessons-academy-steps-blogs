@@ -37,6 +37,7 @@ exports.showPostId = async (req, res, next) => {
     promises.push(Posts.findById(req.params.id).lean());
     promises.push(Comment.find({ postid: req.params.id }).lean());
     const [post, comment] = await Promise.all(promises);
+
     res.render('singlepost', {
       post: post,
       comments: comment,
@@ -63,17 +64,14 @@ exports.sortPostCategory = async (req, res, next) => {
   }
 };
 
-exports.addComment = async (req, res, next) => {
-  const postid = req.body.postid;
-
-  try {
-    await Comment.create({
-      ...req.body,
-      commentDate: new Date(),
-    });
-    req.flash('success', 'Comment Added');
-    res.redirect('/posts/show/' + postid);
-  } catch (error) {
-    next(error);
-  }
-};
+exports.addComment = async (req, res, next) =>
+  Comment.create({
+    ...req.body,
+    commentDate: new Date(),
+  })
+    .then(coment => {
+      req.flash('success', 'Comment Added');
+      res.location('/posts/show/' + req.body.postid);
+      res.redirect('/posts/show/' + req.body.postid);
+    })
+    .catch(error => next(error));
