@@ -1,7 +1,7 @@
-const Categories = require("../models/categories.model");
-const Author = require("../models/authors.model");
-const Posts = require("../models/posts.model");
-const Comment = require("../models/comments.model");
+const Categories = require('../models/categories.model');
+const Author = require('../models/authors.model');
+const Posts = require('../models/posts.model');
+const Comment = require('../models/comments.model');
 
 exports.getForm = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ exports.getForm = async (req, res, next) => {
     promises.push(Author.find().lean());
     promises.push(Categories.find().lean());
     const [authors, categories] = await Promise.all(promises);
-    res.render("addpost", {
+    res.render('addpost', {
       authors: authors,
       categories: categories,
     });
@@ -21,14 +21,15 @@ exports.getForm = async (req, res, next) => {
 exports.addPost = async (req, res, next) =>
   Posts.create({
     ...req.body,
+    mainimage: req.file.filename,
     date: new Date(),
   })
     .then(() => {
-      req.flash("success", "Post Added");
-      res.location("/");
-      res.redirect("/");
+      req.flash('success', 'Post Added');
+      res.location('/');
+      res.redirect('/');
     })
-    .catch((e) => next(e));
+    .catch(e => next(e));
 
 exports.showPostId = async (req, res, next) => {
   try {
@@ -36,7 +37,7 @@ exports.showPostId = async (req, res, next) => {
     promises.push(Posts.findById(req.params.id).lean());
     promises.push(Comment.find({ postid: req.params.id }).lean());
     const [post, comment] = await Promise.all(promises);
-    res.render("singlepost", {
+    res.render('singlepost', {
       post: post,
       comments: comment,
     });
@@ -50,9 +51,9 @@ exports.sortPostCategory = async (req, res, next) => {
     const promises = [];
     promises.push(Posts.find({ category: req.params.category }).lean());
     promises.push(Categories.find({}).lean());
-    promises.push(Authors.find({}).lean());
+    promises.push(Author.find({}).lean());
     const [posts, categories, authors] = await Promise.all(promises);
-    res.render("index", {
+    res.render('index', {
       posts: posts,
       categories: categories,
       authors: authors,
@@ -70,9 +71,8 @@ exports.addComment = async (req, res, next) => {
       ...req.body,
       commentDate: new Date(),
     });
-    req.flash("success", "Comment Added");
-    res.location("/posts/show/" + postid);
-    res.redirect("/posts/show/" + postid);
+    req.flash('success', 'Comment Added');
+    res.redirect('/posts/show/' + postid);
   } catch (error) {
     next(error);
   }

@@ -1,13 +1,12 @@
 const { Router } = require('express');
 const router = Router();
-// const multer = require("multer");
-// const upload = multer({ dest: "./public/uploads/" });
+const upload = require('../services/multer');
 const validation = require('../validation/posts');
 const controllers = require('../controllers/posts');
 
 router.get('/add', controllers.getForm);
 
-router.post('/add', validation.addPost, controllers.addPost);
+router.post('/add', upload.single('mainimage'), validation.addPost, controllers.addPost);
 
 router.get('/show/:id', controllers.showPostId);
 

@@ -3,8 +3,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const expressValidator = require('express-validator');
-// const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
 const createError = require('http-errors');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -84,9 +82,7 @@ app.use('/categories', categoriesRouter);
 app.use('/authors', authorsRouter);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
+app.use((req, res) => res.render('error', { message: `Not found!`, error: { status: 404 } }));
 
 // error handler
 app.use((err, req, res, next) => {
