@@ -11,13 +11,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint-fix && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.js": [
-      "eslint"
-    ]
+    "*.js": "eslint"
   },
   "engines": {
     "node": "14.19.0",
