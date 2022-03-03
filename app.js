@@ -10,7 +10,7 @@ const connectFlash = require('connect-flash');
 
 mongooes
   .connect(process.env.DB_URL)
-  .then(() => console.log('Connected...')) // eslint-disable-line
+  .then(() => console.log('Connected...'))
   .catch(e => console.log(e)); // eslint-disable-line
 
 const indexRouter = require('./routes/index');
