@@ -1,8 +1,18 @@
 {
   "plugins": ["node"],
   "extends": ["eslint:recommended", "plugin:node/recommended", "prettier"],
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "expect": true,
+    "sinon": true
+  },
   "rules": {
-    "node/exports-style": ["error", "module.exports", "exports"],
-    "no-console": 0
+    "no-console": "error",
+    "no-process-exit": "off",
+    "node/no-unsupported-features/es-syntax": "off"
   }
 }

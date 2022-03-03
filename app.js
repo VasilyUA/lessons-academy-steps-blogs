@@ -3,7 +3,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const expressValidator = require('express-validator');
-const createError = require('http-errors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongooes = require('mongoose');
@@ -11,8 +10,8 @@ const connectFlash = require('connect-flash');
 
 mongooes
   .connect(process.env.DB_URL)
-  .then(() => console.log('Connected...'))
-  .catch(e => console.log(e));
+  .then(() => console.log('Connected...')) // eslint-disable-line
+  .catch(e => console.log(e)); // eslint-disable-line
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
@@ -60,7 +59,7 @@ app.use(
         formParam = root;
 
       while (namespace.length) {
-        formParam += '[' + namespace.shift() + ']';
+        `${formParam}[${namespace.shift()}]`;
       }
       return {
         param: formParam,
@@ -85,7 +84,7 @@ app.use('/authors', authorsRouter);
 app.use((req, res) => res.render('error', { message: `Not found!`, error: { status: 404 } }));
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);

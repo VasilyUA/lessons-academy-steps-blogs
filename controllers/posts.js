@@ -69,7 +69,7 @@ exports.addComment = async (req, res, next) =>
     ...req.body,
     commentDate: new Date(),
   })
-    .then(coment => {
+    .then(() => {
       req.flash('success', 'Comment Added');
       res.location('/posts/show/' + req.body.postid);
       res.redirect('/posts/show/' + req.body.postid);
