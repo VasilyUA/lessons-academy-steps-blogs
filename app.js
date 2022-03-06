@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const expressValidator = require('express-validator');
@@ -7,34 +6,29 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongooes = require('mongoose');
 const connectFlash = require('connect-flash');
+const expressMessages = require('express-messages');
 
 mongooes
   .connect(process.env.DB_URL)
   .then(() => console.log('Connected...')) // eslint-disable-line
   .catch(e => console.log(e)); // eslint-disable-line
 
-const indexRouter = require('./routes/index');
-const postsRouter = require('./routes/posts');
-const categoriesRouter = require('./routes/categories');
-const authorsRouter = require('./routes/authors');
-
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(connectFlash());
+
 app.use((req, res, next) => {
-  res.locals.messages = require('express-messages')(req, res);
+  res.locals.messages = expressMessages(req, res);
   next();
 });
 
@@ -53,37 +47,17 @@ app.use(
 
 app.use(
   expressValidator({
-    errorFormatter: function (param, msg, value) {
-      const namespace = param.split('.'),
-        root = namespace.shift(),
-        formParam = root;
-
-      while (namespace.length) {
-        `${formParam}[${namespace.shift()}]`;
-      }
-      return {
-        param: formParam,
-        msg: msg,
-        value: value,
-      };
-    },
+    errorFormatter: require('./validation/index'),
   }),
 );
 
-app.use((req, res, next) => {
-  req.mongooes = mongooes;
-  next();
-});
+app.use('/', require('./routes/index'));
+app.use('/posts', require('./routes/posts'));
+app.use('/categories', require('./routes/categories'));
+app.use('/authors', require('./routes/authors'));
 
-app.use('/', indexRouter);
-app.use('/posts', postsRouter);
-app.use('/categories', categoriesRouter);
-app.use('/authors', authorsRouter);
-
-// catch 404 and forward to error handler
 app.use((req, res) => res.render('error', { message: `Not found!`, error: { status: 404 } }));
 
-// error handler
 app.use((err, req, res) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
